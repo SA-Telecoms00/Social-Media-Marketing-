@@ -13,8 +13,37 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL("https://sa-telecoms.co.za"),
   title: "SA Telecoms — Your Brand. Everywhere.",
   description: "We grow brands through social media strategy, content, and paid advertising. SA Telecoms is your partner for explosive social media growth.",
+  keywords: ["social media marketing", "social media management", "social media advertising", "SA Telecoms", "brand growth", "South Africa"],
+  authors: [{ name: "SA Telecoms" }],
+  openGraph: {
+    title: "SA Telecoms — Your Brand. Everywhere.",
+    description: "We grow brands through social media strategy, content, and paid advertising. SA Telecoms is your partner for explosive social media growth.",
+    url: "https://sa-telecoms.co.za",
+    siteName: "SA Telecoms",
+    locale: "en_ZA",
+    type: "website",
+    images: [
+      {
+        url: "/SaTelecoms-Logo.png",
+        width: 512,
+        height: 512,
+        alt: "SA Telecoms Logo",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "SA Telecoms — Your Brand. Everywhere.",
+    description: "We grow brands through social media strategy, content, and paid advertising.",
+    images: ["/SaTelecoms-Logo.png"],
+  },
+  robots: {
+    index: true,
+    follow: true,
+  },
 };
 
 export default function RootLayout({

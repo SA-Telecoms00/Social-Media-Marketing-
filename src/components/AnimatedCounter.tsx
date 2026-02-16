@@ -33,6 +33,7 @@ export default function AnimatedCounter({
     const startTime = Date.now();
     const startValue = continuous ? count : 0;
     const endValue = target;
+    let rafId: number;
 
     const animate = () => {
       const elapsed = Date.now() - startTime;
@@ -42,30 +43,26 @@ export default function AnimatedCounter({
       setCount(current);
 
       if (progress < 1) {
-        requestAnimationFrame(animate);
+        rafId = requestAnimationFrame(animate);
       } else if (continuous) {
-        intervalRef.current = setTimeout(() => {
-          setCount((prev) => prev + Math.random() * (target * 0.02));
-        }, 1000 + Math.random() * 2000);
+        // Start continuous ticking after initial animation completes
+        const tick = () => {
+          intervalRef.current = setTimeout(() => {
+            setCount((prev) => prev + Math.random() * (target * 0.005) + 1);
+            tick();
+          }, 2000 + Math.random() * 3000);
+        };
+        tick();
       }
     };
 
-    requestAnimationFrame(animate);
+    rafId = requestAnimationFrame(animate);
 
     return () => {
+      cancelAnimationFrame(rafId);
       if (intervalRef.current) clearTimeout(intervalRef.current);
     };
   }, [isInView, target, duration, continuous]);
-
-  useEffect(() => {
-    if (!continuous || !isInView) return;
-
-    const tick = setInterval(() => {
-      setCount((prev) => prev + Math.random() * (target * 0.005) + 1);
-    }, 2000 + Math.random() * 3000);
-
-    return () => clearInterval(tick);
-  }, [continuous, isInView, target]);
 
   const formatted = decimals > 0
     ? count.toFixed(decimals)

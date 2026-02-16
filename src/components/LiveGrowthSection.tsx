@@ -5,6 +5,7 @@ import { useRef, useState, useEffect } from "react";
 import { Users, Heart, Eye, Target, TrendingUp } from "lucide-react";
 import AnimatedCounter from "./AnimatedCounter";
 import MiniLineChart from "./MiniLineChart";
+import LiveBadge from "./LiveBadge";
 import Image from "next/image";
 
 function AnimatedProgressBar({
@@ -48,18 +49,6 @@ function AnimatedProgressBar({
           style={{ background: `linear-gradient(90deg, ${color}, ${color}88)` }}
         />
       </div>
-    </div>
-  );
-}
-
-function LiveBadge() {
-  return (
-    <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-neon-green/10 border border-neon-green/30">
-      <span className="relative flex h-2.5 w-2.5">
-        <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-neon-green opacity-75" />
-        <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-neon-green" />
-      </span>
-      <span className="text-xs font-bold text-neon-green uppercase tracking-widest">Live</span>
     </div>
   );
 }

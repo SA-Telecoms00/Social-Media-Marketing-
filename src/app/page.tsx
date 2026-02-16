@@ -5,6 +5,8 @@ import SocialFeedSection from "@/components/SocialFeedSection";
 import ServicesSection from "@/components/ServicesSection";
 import WhySection from "@/components/WhySection";
 import FinalCTASection from "@/components/FinalCTASection";
+import ContactSection from "@/components/ContactSection";
+import ScrollToTop from "@/components/ScrollToTop";
 import Footer from "@/components/Footer";
 
 export default function Home() {
@@ -17,7 +19,9 @@ export default function Home() {
       <SocialFeedSection />
       <WhySection />
       <FinalCTASection />
+      <ContactSection />
       <Footer />
+      <ScrollToTop />
     </main>
   );
 }

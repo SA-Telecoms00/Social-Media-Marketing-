@@ -5,7 +5,22 @@ import { useRef } from "react";
 import { Heart, MessageCircle, Share2, Bookmark, MoreHorizontal, Play } from "lucide-react";
 import Image from "next/image";
 
-const feedPosts = [
+interface FeedPost {
+  username: string;
+  handle: string;
+  avatar: string;
+  avatarBg: string;
+  time: string;
+  content: string;
+  likes: number;
+  comments: number;
+  shares: number;
+  type: "text" | "image" | "video";
+  imageGradient?: string;
+  stockImage?: string;
+}
+
+const feedPosts: FeedPost[] = [
   {
     username: "freshroast_co",
     handle: "@freshroast",
@@ -16,7 +31,7 @@ const feedPosts = [
     likes: 847,
     comments: 63,
     shares: 124,
-    type: "text" as const,
+    type: "text",
   },
   {
     username: "luxe_beauty",
@@ -28,7 +43,7 @@ const feedPosts = [
     likes: 2341,
     comments: 189,
     shares: 456,
-    type: "image" as const,
+    type: "image",
     imageGradient: "from-pink-600/30 via-purple-600/30 to-blue-600/30",
     stockImage: "/instagram-city.jpg",
   },
@@ -42,7 +57,7 @@ const feedPosts = [
     likes: 1523,
     comments: 97,
     shares: 312,
-    type: "text" as const,
+    type: "text",
   },
   {
     username: "fitzone_gym",
@@ -54,7 +69,7 @@ const feedPosts = [
     likes: 956,
     comments: 72,
     shares: 198,
-    type: "video" as const,
+    type: "video",
     imageGradient: "from-green-600/30 via-teal-600/30 to-cyan-600/30",
     stockImage: "/app-icons-grid.jpg",
   },
@@ -68,7 +83,7 @@ const feedPosts = [
     likes: 4210,
     comments: 341,
     shares: 892,
-    type: "image" as const,
+    type: "image",
     imageGradient: "from-yellow-600/30 via-orange-600/30 to-red-600/30",
     stockImage: "/social-platforms-blue.jpg",
   },
@@ -82,7 +97,7 @@ const feedPosts = [
     likes: 1876,
     comments: 145,
     shares: 267,
-    type: "text" as const,
+    type: "text",
   },
 ];
 
@@ -124,9 +139,9 @@ function FeedCard({ post, index }: { post: typeof feedPosts[0]; index: number })
       {/* Image/Video */}
       {(post.type === "image" || post.type === "video") && (
         <div className={`relative w-full h-44 rounded-xl bg-gradient-to-br ${post.imageGradient} mb-3 overflow-hidden`}>
-          {(post as { stockImage?: string }).stockImage && (
+          {post.stockImage && (
             <Image
-              src={(post as { stockImage?: string }).stockImage!}
+              src={post.stockImage}
               alt="Post content"
               fill
               className="object-cover opacity-80 group-hover:opacity-100 group-hover:scale-105 transition-all duration-500"
@@ -149,20 +164,20 @@ function FeedCard({ post, index }: { post: typeof feedPosts[0]; index: number })
       {/* Actions */}
       <div className="flex items-center justify-between pt-2 border-t border-surface-border/50">
         <div className="flex items-center gap-5">
-          <button className="flex items-center gap-1.5 text-gray-500 hover:text-neon-pink transition-colors group/btn">
+          <button aria-label="Like" className="flex items-center gap-1.5 text-gray-500 hover:text-neon-pink transition-colors group/btn">
             <Heart className="w-4 h-4 group-hover/btn:scale-110 transition-transform" />
             <span className="text-xs">{post.likes.toLocaleString()}</span>
           </button>
-          <button className="flex items-center gap-1.5 text-gray-500 hover:text-neon-blue transition-colors group/btn">
+          <button aria-label="Comment" className="flex items-center gap-1.5 text-gray-500 hover:text-neon-blue transition-colors group/btn">
             <MessageCircle className="w-4 h-4 group-hover/btn:scale-110 transition-transform" />
             <span className="text-xs">{post.comments}</span>
           </button>
-          <button className="flex items-center gap-1.5 text-gray-500 hover:text-neon-green transition-colors group/btn">
+          <button aria-label="Share" className="flex items-center gap-1.5 text-gray-500 hover:text-neon-green transition-colors group/btn">
             <Share2 className="w-4 h-4 group-hover/btn:scale-110 transition-transform" />
             <span className="text-xs">{post.shares}</span>
           </button>
         </div>
-        <button className="text-gray-500 hover:text-neon-purple transition-colors">
+        <button aria-label="Bookmark" className="text-gray-500 hover:text-neon-purple transition-colors">
           <Bookmark className="w-4 h-4" />
         </button>
       </div>

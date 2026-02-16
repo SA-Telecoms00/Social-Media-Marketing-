@@ -320,7 +320,8 @@ export default function FinalCTASection() {
           className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-12"
         >
           {/* Primary: Get Started */}
-          <motion.button
+          <motion.a
+            href="#contact"
             whileHover={{ scale: 1.05, boxShadow: "0 0 60px rgba(0,212,255,0.25)" }}
             whileTap={{ scale: 0.96 }}
             className="group relative px-10 py-5 rounded-full text-white font-bold text-lg shadow-2xl shadow-neon-blue/15 hover:shadow-neon-blue/30 transition-shadow flex items-center gap-3 overflow-hidden"
@@ -341,17 +342,18 @@ export default function FinalCTASection() {
             >
               <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
             </motion.span>
-          </motion.button>
+          </motion.a>
 
           {/* Secondary: Book a Strategy Call */}
-          <motion.button
+          <motion.a
+            href="#contact"
             whileHover={{ scale: 1.04, boxShadow: "0 0 30px rgba(168,85,247,0.15)" }}
             whileTap={{ scale: 0.96 }}
             className="px-10 py-5 rounded-full bg-white/[0.04] border border-white/[0.1] text-gray-300 hover:text-white hover:border-neon-purple/30 font-bold text-lg transition-all backdrop-blur-sm flex items-center gap-3"
           >
             <Calendar className="w-5 h-5" />
             Book a Strategy Call
-          </motion.button>
+          </motion.a>
         </motion.div>
 
         {/* === SOCIAL PROOF BAR === */}
