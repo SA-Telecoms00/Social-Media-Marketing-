@@ -197,7 +197,7 @@ export default function Footer() {
               <div className="h-px bg-gradient-to-r from-transparent via-white/[0.06] to-transparent" />
 
               <motion.a
-                href="#contact"
+                href="mailto:info@sa-telecoms.co.za?subject=I%20want%20to%20book%20a%20strategy%20call"
                 whileHover={{ scale: 1.03, boxShadow: "0 0 30px rgba(0,212,255,0.2)" }}
                 whileTap={{ scale: 0.97 }}
                 className="flex items-center justify-center gap-2 w-full px-4 py-2.5 rounded-lg bg-gradient-to-r from-neon-blue via-neon-purple to-neon-pink text-white text-sm font-semibold shadow-lg shadow-neon-blue/10 hover:shadow-neon-blue/25 transition-shadow"

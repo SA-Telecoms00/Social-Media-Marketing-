@@ -46,7 +46,11 @@ export default function Navbar() {
             <motion.a
               key={item}
               href={`#${item.toLowerCase()}`}
-              className="text-sm text-gray-400 hover:text-white transition-colors relative group"
+              onClick={(e) => {
+                e.preventDefault();
+                document.getElementById(item.toLowerCase())?.scrollIntoView({ behavior: "smooth" });
+              }}
+              className="text-sm text-gray-400 hover:text-white transition-colors relative group cursor-pointer"
               whileHover={{ y: -1 }}
             >
               {item}
@@ -55,13 +59,18 @@ export default function Navbar() {
           ))}
         </div>
 
-        <motion.button
+        <motion.a
+          href="#contact"
+          onClick={(e) => {
+            e.preventDefault();
+            document.getElementById("contact")?.scrollIntoView({ behavior: "smooth" });
+          }}
           whileHover={{ scale: 1.05 }}
           whileTap={{ scale: 0.95 }}
-          className="px-5 py-2.5 rounded-full bg-gradient-to-r from-neon-blue to-neon-purple text-white text-sm font-semibold hover:shadow-lg hover:shadow-neon-blue/25 transition-shadow"
+          className="px-5 py-2.5 rounded-full bg-gradient-to-r from-neon-blue to-neon-purple text-white text-sm font-semibold hover:shadow-lg hover:shadow-neon-blue/25 transition-shadow cursor-pointer"
         >
           Start Growing
-        </motion.button>
+        </motion.a>
       </div>
     </motion.nav>
   );

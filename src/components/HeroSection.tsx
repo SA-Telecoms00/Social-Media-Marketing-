@@ -244,20 +244,30 @@ export default function HeroSection() {
                 transition={{ duration: 0.8, delay: 0.8 }}
                 className="flex flex-col sm:flex-row items-center justify-center gap-4"
               >
-                <motion.button
+                <motion.a
+                  href="#contact"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    document.getElementById("contact")?.scrollIntoView({ behavior: "smooth" });
+                  }}
                   whileHover={{ scale: 1.05, boxShadow: "0 0 50px rgba(0,212,255,0.25)" }}
                   whileTap={{ scale: 0.95 }}
-                  className="px-8 py-4 rounded-full bg-gradient-to-r from-neon-blue via-neon-purple to-neon-pink text-white font-semibold text-lg shadow-lg shadow-neon-blue/20 hover:shadow-neon-blue/40 transition-shadow"
+                  className="px-8 py-4 rounded-full bg-gradient-to-r from-neon-blue via-neon-purple to-neon-pink text-white font-semibold text-lg shadow-lg shadow-neon-blue/20 hover:shadow-neon-blue/40 transition-shadow cursor-pointer"
                 >
                   Start Growing Now
-                </motion.button>
-                <motion.button
+                </motion.a>
+                <motion.a
+                  href="#growth"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    document.getElementById("growth")?.scrollIntoView({ behavior: "smooth" });
+                  }}
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
-                  className="px-8 py-4 rounded-full border border-white/[0.1] text-gray-300 hover:text-white hover:border-neon-blue/40 font-semibold text-lg transition-all backdrop-blur-sm"
+                  className="px-8 py-4 rounded-full border border-white/[0.1] text-gray-300 hover:text-white hover:border-neon-blue/40 font-semibold text-lg transition-all backdrop-blur-sm cursor-pointer"
                 >
                   See Live Growth ↓
-                </motion.button>
+                </motion.a>
               </motion.div>
             </div>
           </div>

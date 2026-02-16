@@ -103,10 +103,17 @@ function ServiceCard({ service, index }: { service: typeof services[0]; index: n
         </div>
 
         {/* CTA */}
-        <div className={`flex items-center gap-2 ${service.iconColor} text-sm font-semibold opacity-0 group-hover:opacity-100 transition-opacity duration-300`}>
+        <a
+          href="#contact"
+          onClick={(e) => {
+            e.preventDefault();
+            document.getElementById("contact")?.scrollIntoView({ behavior: "smooth" });
+          }}
+          className={`flex items-center gap-2 ${service.iconColor} text-sm font-semibold opacity-0 group-hover:opacity-100 transition-opacity duration-300`}
+        >
           <span>Learn More</span>
           <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-        </div>
+        </a>
       </div>
     </motion.div>
   );

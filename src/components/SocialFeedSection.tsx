@@ -1,7 +1,7 @@
 "use client";
 
 import { motion, useInView } from "framer-motion";
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import { Heart, MessageCircle, Share2, Bookmark, MoreHorizontal, Play } from "lucide-react";
 import Image from "next/image";
 
@@ -89,6 +89,9 @@ const feedPosts = [
 function FeedCard({ post, index }: { post: typeof feedPosts[0]; index: number }) {
   const ref = useRef<HTMLDivElement>(null);
   const isInView = useInView(ref, { once: true, margin: "-50px" });
+  const [liked, setLiked] = useState(false);
+  const [saved, setSaved] = useState(false);
+  const [likeCount, setLikeCount] = useState(post.likes);
 
   return (
     <motion.div
@@ -149,9 +152,17 @@ function FeedCard({ post, index }: { post: typeof feedPosts[0]; index: number })
       {/* Actions */}
       <div className="flex items-center justify-between pt-2 border-t border-surface-border/50">
         <div className="flex items-center gap-5">
-          <button className="flex items-center gap-1.5 text-gray-500 hover:text-neon-pink transition-colors group/btn">
-            <Heart className="w-4 h-4 group-hover/btn:scale-110 transition-transform" />
-            <span className="text-xs">{post.likes.toLocaleString()}</span>
+          <button
+            onClick={() => {
+              setLiked((prev) => !prev);
+              setLikeCount((prev) => liked ? prev - 1 : prev + 1);
+            }}
+            className={`flex items-center gap-1.5 transition-colors group/btn ${liked ? "text-neon-pink" : "text-gray-500 hover:text-neon-pink"}`}
+          >
+            <motion.div animate={liked ? { scale: [1, 1.3, 1] } : {}} transition={{ duration: 0.3 }}>
+              <Heart className={`w-4 h-4 group-hover/btn:scale-110 transition-transform ${liked ? "fill-current" : ""}`} />
+            </motion.div>
+            <span className="text-xs">{likeCount.toLocaleString("en-US")}</span>
           </button>
           <button className="flex items-center gap-1.5 text-gray-500 hover:text-neon-blue transition-colors group/btn">
             <MessageCircle className="w-4 h-4 group-hover/btn:scale-110 transition-transform" />
@@ -162,8 +173,11 @@ function FeedCard({ post, index }: { post: typeof feedPosts[0]; index: number })
             <span className="text-xs">{post.shares}</span>
           </button>
         </div>
-        <button className="text-gray-500 hover:text-neon-purple transition-colors">
-          <Bookmark className="w-4 h-4" />
+        <button
+          onClick={() => setSaved((prev) => !prev)}
+          className={`transition-colors ${saved ? "text-neon-purple" : "text-gray-500 hover:text-neon-purple"}`}
+        >
+          <Bookmark className={`w-4 h-4 ${saved ? "fill-current" : ""}`} />
         </button>
       </div>
     </motion.div>
