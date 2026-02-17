@@ -2,7 +2,7 @@
 
 import { motion, useInView } from "framer-motion";
 import { useRef, useEffect, useState } from "react";
-import { ArrowRight, Calendar } from "lucide-react";
+import { ArrowRight, Calendar, Mail, Phone, MapPin, Send, MessageCircle } from "lucide-react";
 import Image from "next/image";
 
 function MomentumSparkline() {
@@ -149,6 +149,151 @@ function SocialProofBar({ isInView }: { isInView: boolean }) {
   );
 }
 
+function ContactForm() {
+  const [formData, setFormData] = useState({
+    name: "",
+    email: "",
+    phone: "",
+    service: "",
+    message: "",
+  });
+  const [submitted, setSubmitted] = useState(false);
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+
+    const subject = encodeURIComponent(
+      `New enquiry from ${formData.name || "Website Visitor"}`
+    );
+    const body = encodeURIComponent(
+      `Name: ${formData.name}\nEmail: ${formData.email}\nPhone: ${formData.phone}\nService: ${formData.service}\n\nMessage:\n${formData.message}`
+    );
+    window.location.href = `mailto:info@sa-telecoms.co.za?subject=${subject}&body=${body}`;
+    setSubmitted(true);
+    setTimeout(() => setSubmitted(false), 4000);
+  };
+
+  const inputClass =
+    "w-full px-4 py-3 rounded-xl bg-white/[0.04] border border-white/[0.08] text-white text-sm placeholder-gray-500 focus:outline-none focus:border-neon-blue/40 focus:bg-white/[0.06] transition-all backdrop-blur-sm";
+
+  return (
+    <div className="rounded-2xl bg-white/[0.03] border border-white/[0.07] backdrop-blur-xl p-6 sm:p-8">
+      <div className="flex items-center gap-3 mb-6">
+        <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-neon-blue/20 to-neon-purple/20 border border-neon-blue/20 flex items-center justify-center">
+          <Send className="w-4 h-4 text-neon-blue" />
+        </div>
+        <div>
+          <h3 className="text-white font-semibold">Send Us a Message</h3>
+          <p className="text-xs text-gray-500">We&apos;ll respond within 24 hours</p>
+        </div>
+      </div>
+
+      <form onSubmit={handleSubmit} className="space-y-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div>
+            <label htmlFor="contact-name" className="block text-xs text-gray-500 mb-1.5 ml-1">
+              Full Name *
+            </label>
+            <input
+              id="contact-name"
+              type="text"
+              required
+              placeholder="John Doe"
+              value={formData.name}
+              onChange={(e) => setFormData((prev) => ({ ...prev, name: e.target.value }))}
+              className={inputClass}
+            />
+          </div>
+          <div>
+            <label htmlFor="contact-email" className="block text-xs text-gray-500 mb-1.5 ml-1">
+              Email Address *
+            </label>
+            <input
+              id="contact-email"
+              type="email"
+              required
+              placeholder="john@company.co.za"
+              value={formData.email}
+              onChange={(e) => setFormData((prev) => ({ ...prev, email: e.target.value }))}
+              className={inputClass}
+            />
+          </div>
+        </div>
+
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div>
+            <label htmlFor="contact-phone" className="block text-xs text-gray-500 mb-1.5 ml-1">
+              Phone Number
+            </label>
+            <input
+              id="contact-phone"
+              type="tel"
+              placeholder="072 000 0000"
+              value={formData.phone}
+              onChange={(e) => setFormData((prev) => ({ ...prev, phone: e.target.value }))}
+              className={inputClass}
+            />
+          </div>
+          <div>
+            <label htmlFor="contact-service" className="block text-xs text-gray-500 mb-1.5 ml-1">
+              Service Interested In
+            </label>
+            <select
+              id="contact-service"
+              value={formData.service}
+              onChange={(e) => setFormData((prev) => ({ ...prev, service: e.target.value }))}
+              className={`${inputClass} appearance-none cursor-pointer`}
+            >
+              <option value="" className="bg-[#120830]">Select a service...</option>
+              <option value="Social Media Account Setup" className="bg-[#120830]">Social Media Account Setup</option>
+              <option value="Social Media Page Management" className="bg-[#120830]">Social Media Page Management</option>
+              <option value="Social Media Advertising" className="bg-[#120830]">Social Media Advertising</option>
+              <option value="Full Growth Package" className="bg-[#120830]">Full Growth Package</option>
+              <option value="Other" className="bg-[#120830]">Other</option>
+            </select>
+          </div>
+        </div>
+
+        <div>
+          <label htmlFor="contact-message" className="block text-xs text-gray-500 mb-1.5 ml-1">
+            Your Message *
+          </label>
+          <textarea
+            id="contact-message"
+            required
+            rows={4}
+            placeholder="Tell us about your brand and what you'd like to achieve..."
+            value={formData.message}
+            onChange={(e) => setFormData((prev) => ({ ...prev, message: e.target.value }))}
+            className={`${inputClass} resize-none`}
+          />
+        </div>
+
+        <motion.button
+          type="submit"
+          disabled={submitted}
+          whileHover={{ scale: 1.02, boxShadow: "0 0 40px rgba(0,212,255,0.2)" }}
+          whileTap={{ scale: 0.98 }}
+          className="group relative w-full px-6 py-4 rounded-xl text-white font-bold text-base shadow-xl shadow-neon-blue/10 hover:shadow-neon-blue/25 transition-shadow flex items-center justify-center gap-2 overflow-hidden disabled:opacity-70"
+        >
+          <motion.div
+            className="absolute inset-0 bg-gradient-to-r from-neon-blue via-neon-purple to-neon-pink"
+            style={{ backgroundSize: "200% 100%" }}
+            animate={{ backgroundPosition: ["0% 0%", "100% 0%", "0% 0%"] }}
+            transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
+          />
+          <span className="relative z-10">
+            {submitted ? "Opening Email Client..." : "Send Message"}
+          </span>
+          {!submitted && (
+            <ArrowRight className="relative z-10 w-5 h-5 group-hover:translate-x-1 transition-transform" />
+          )}
+        </motion.button>
+      </form>
+    </div>
+  );
+}
+
 export default function FinalCTASection() {
   const ref = useRef<HTMLDivElement>(null);
   const isInView = useInView(ref, { once: true, margin: "-80px" });
@@ -263,101 +408,141 @@ export default function FinalCTASection() {
       {/* ============================================= */}
       {/* CONTENT                                       */}
       {/* ============================================= */}
-      <div className="max-w-4xl mx-auto relative z-10 text-center flex flex-col items-center">
+      <div className="max-w-6xl mx-auto relative z-10">
 
-        {/* === HEADLINE: Sequenced animation === */}
-        <div className="mb-6">
-          {/* Line 1: "Stop Posting." — fast and sharp */}
+        {/* === HEADLINE: Centered === */}
+        <div className="text-center mb-14">
           <motion.div
             initial={{ opacity: 0, y: 25, scale: 0.95 }}
             animate={isInView ? { opacity: 1, y: 0, scale: 1 } : {}}
             transition={{ duration: 0.45, delay: 0.15, ease: "easeOut" as const }}
             className="overflow-hidden"
           >
-            <h2 className="text-5xl md:text-7xl lg:text-8xl font-bold leading-tight text-white">
-              Stop Posting.
+            <h2 className="text-4xl md:text-6xl lg:text-7xl font-bold leading-tight text-white">
+              Let&apos;s <span className="text-gradient">Get In Touch</span>
             </h2>
           </motion.div>
 
-          {/* Line 2: "Start Growing." — glow, scale, gradient shimmer */}
-          <motion.div
-            initial={{ opacity: 0, y: 30, scale: 0.9 }}
-            animate={isInView ? { opacity: 1, y: 0, scale: 1 } : {}}
-            transition={{ duration: 0.6, delay: 0.5, ease: "easeOut" as const }}
-            className="overflow-hidden"
+          <motion.p
+            initial={{ opacity: 0, y: 15 }}
+            animate={isInView ? { opacity: 1, y: 0 } : {}}
+            transition={{ duration: 0.7, delay: 0.4 }}
+            className="text-lg md:text-xl text-gray-400 max-w-2xl mx-auto mt-5 leading-relaxed"
           >
-            <motion.h2
-              className="text-5xl md:text-7xl lg:text-8xl font-bold leading-tight text-gradient"
-              animate={isInView ? { filter: ["brightness(1)", "brightness(1.3)", "brightness(1)"] } : {}}
-              transition={{ duration: 3, repeat: Infinity, ease: "easeInOut", delay: 1.2 }}
+            Ready to grow your brand? Fill out the form or reach out directly — we&apos;ll get back to you within 24 hours.
+          </motion.p>
+
+          <div className="mt-6 flex justify-center">
+            <LiveMomentumModule isInView={isInView} />
+          </div>
+        </div>
+
+        {/* === TWO-COLUMN: Form + Contact Details === */}
+        <div className="grid grid-cols-1 lg:grid-cols-5 gap-8 lg:gap-10">
+
+          {/* ── LEFT: Contact Form (3 cols) ── */}
+          <motion.div
+            initial={{ opacity: 0, x: -30 }}
+            animate={isInView ? { opacity: 1, x: 0 } : {}}
+            transition={{ duration: 0.7, delay: 0.6 }}
+            className="lg:col-span-3"
+          >
+            <ContactForm />
+          </motion.div>
+
+          {/* ── RIGHT: Contact Details (2 cols) ── */}
+          <motion.div
+            initial={{ opacity: 0, x: 30 }}
+            animate={isInView ? { opacity: 1, x: 0 } : {}}
+            transition={{ duration: 0.7, delay: 0.8 }}
+            className="lg:col-span-2 flex flex-col gap-5"
+          >
+            {/* Contact info card */}
+            <div className="rounded-2xl bg-white/[0.03] border border-white/[0.07] backdrop-blur-xl p-6 space-y-5">
+              <h3 className="text-sm font-semibold text-gray-400 uppercase tracking-widest">Contact Details</h3>
+
+              <div className="space-y-4">
+                <a
+                  href="mailto:info@sa-telecoms.co.za"
+                  className="flex items-center gap-3 text-sm text-gray-300 hover:text-white transition-colors group"
+                >
+                  <div className="w-10 h-10 rounded-xl bg-neon-blue/10 border border-neon-blue/20 flex items-center justify-center shrink-0 group-hover:bg-neon-blue/20 transition-colors">
+                    <Mail className="w-4 h-4 text-neon-blue" />
+                  </div>
+                  <div>
+                    <p className="text-xs text-gray-500">Email</p>
+                    <p>info@sa-telecoms.co.za</p>
+                  </div>
+                </a>
+
+                <a
+                  href="tel:+27723446517"
+                  className="flex items-center gap-3 text-sm text-gray-300 hover:text-white transition-colors group"
+                >
+                  <div className="w-10 h-10 rounded-xl bg-neon-purple/10 border border-neon-purple/20 flex items-center justify-center shrink-0 group-hover:bg-neon-purple/20 transition-colors">
+                    <Phone className="w-4 h-4 text-neon-purple" />
+                  </div>
+                  <div>
+                    <p className="text-xs text-gray-500">Phone</p>
+                    <p>072 344 6517</p>
+                  </div>
+                </a>
+
+                <a
+                  href="tel:+27760326170"
+                  className="flex items-center gap-3 text-sm text-gray-300 hover:text-white transition-colors group"
+                >
+                  <div className="w-10 h-10 rounded-xl bg-neon-purple/10 border border-neon-purple/20 flex items-center justify-center shrink-0 group-hover:bg-neon-purple/20 transition-colors">
+                    <Phone className="w-4 h-4 text-neon-purple" />
+                  </div>
+                  <div>
+                    <p className="text-xs text-gray-500">Phone</p>
+                    <p>076 032 6170</p>
+                  </div>
+                </a>
+
+                <a
+                  href="https://wa.me/27760326170"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center gap-3 text-sm text-gray-300 hover:text-white transition-colors group"
+                >
+                  <div className="w-10 h-10 rounded-xl bg-[#25D366]/10 border border-[#25D366]/20 flex items-center justify-center shrink-0 group-hover:bg-[#25D366]/20 transition-colors">
+                    <MessageCircle className="w-4 h-4 text-[#25D366]" />
+                  </div>
+                  <div>
+                    <p className="text-xs text-gray-500">WhatsApp</p>
+                    <p>Chat with us</p>
+                  </div>
+                </a>
+
+                <div className="flex items-center gap-3 text-sm text-gray-300">
+                  <div className="w-10 h-10 rounded-xl bg-neon-pink/10 border border-neon-pink/20 flex items-center justify-center shrink-0">
+                    <MapPin className="w-4 h-4 text-neon-pink" />
+                  </div>
+                  <div>
+                    <p className="text-xs text-gray-500">Location</p>
+                    <p>South Africa</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Quick action buttons */}
+            <motion.a
+              href="mailto:info@sa-telecoms.co.za?subject=I%20want%20to%20book%20a%20strategy%20call"
+              whileHover={{ scale: 1.02, boxShadow: "0 0 30px rgba(168,85,247,0.15)" }}
+              whileTap={{ scale: 0.97 }}
+              className="flex items-center justify-center gap-2 w-full px-6 py-4 rounded-xl bg-white/[0.04] border border-white/[0.07] text-gray-300 hover:text-white hover:border-neon-purple/30 font-semibold transition-all backdrop-blur-sm"
             >
-              Start Growing.
-            </motion.h2>
+              <Calendar className="w-5 h-5" />
+              Book a Strategy Call
+            </motion.a>
+
+            {/* Social proof */}
+            <SocialProofBar isInView={isInView} />
           </motion.div>
         </div>
-
-        {/* === SUBTEXT === */}
-        <motion.p
-          initial={{ opacity: 0, y: 15 }}
-          animate={isInView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.7, delay: 0.75 }}
-          className="text-lg md:text-xl text-gray-400 max-w-2xl mx-auto mb-8 leading-relaxed"
-        >
-          Your competitors are already investing in social media growth.
-          The question isn&apos;t if — it&apos;s when. Let&apos;s make it now.
-        </motion.p>
-
-        {/* === LIVE MOMENTUM MODULE === */}
-        <div className="mb-10">
-          <LiveMomentumModule isInView={isInView} />
-        </div>
-
-        {/* === CTA BUTTONS === */}
-        <motion.div
-          initial={{ opacity: 0, y: 15 }}
-          animate={isInView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.7, delay: 1.05 }}
-          className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-12"
-        >
-          {/* Primary: Get Started */}
-          <motion.a
-            href="mailto:info@sa-telecoms.co.za?subject=I%20want%20to%20get%20started%20with%20social%20media%20growth"
-            whileHover={{ scale: 1.05, boxShadow: "0 0 60px rgba(0,212,255,0.25)" }}
-            whileTap={{ scale: 0.96 }}
-            className="group relative px-10 py-5 rounded-full text-white font-bold text-lg shadow-2xl shadow-neon-blue/15 hover:shadow-neon-blue/30 transition-shadow flex items-center gap-3 overflow-hidden"
-          >
-            {/* Animated gradient bg */}
-            <motion.div
-              className="absolute inset-0 bg-gradient-to-r from-neon-blue via-neon-purple to-neon-pink"
-              style={{ backgroundSize: "200% 100%" }}
-              animate={{ backgroundPosition: ["0% 0%", "100% 0%", "0% 0%"] }}
-              transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
-            />
-            <span className="relative z-10">Get Started</span>
-            <motion.span
-              className="relative z-10"
-              initial={{ x: 0 }}
-              whileHover={{ x: 4 }}
-              transition={{ duration: 0.2 }}
-            >
-              <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
-            </motion.span>
-          </motion.a>
-
-          {/* Secondary: Book a Strategy Call */}
-          <motion.a
-            href="mailto:info@sa-telecoms.co.za?subject=I%20want%20to%20book%20a%20strategy%20call"
-            whileHover={{ scale: 1.04, boxShadow: "0 0 30px rgba(168,85,247,0.15)" }}
-            whileTap={{ scale: 0.96 }}
-            className="px-10 py-5 rounded-full bg-white/[0.04] border border-white/[0.1] text-gray-300 hover:text-white hover:border-neon-purple/30 font-bold text-lg transition-all backdrop-blur-sm flex items-center gap-3"
-          >
-            <Calendar className="w-5 h-5" />
-            Book a Strategy Call
-          </motion.a>
-        </motion.div>
-
-        {/* === SOCIAL PROOF BAR === */}
-        <SocialProofBar isInView={isInView} />
       </div>
     </section>
   );
